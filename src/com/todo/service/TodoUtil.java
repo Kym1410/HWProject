@@ -39,12 +39,11 @@ public class TodoUtil {
 	public static void deleteItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
-		String title = sc.nextLine();
-		
 		System.out.println("\n"
 				+ "========== Delete Item Section\n"
 				+ "enter the title of item to remove\n"
 				+ "\n");
+		String title = sc.nextLine();
 		
 		for (TodoItem item : l.getList()) {
 			if (title.equals(item.getTitle())) {
@@ -122,12 +121,7 @@ public class TodoUtil {
 						TodoItem item = new TodoItem(title, desc, date);
 						l.addItem(item);
 					}
-					if(num == 0) {
-						System.out.println(filename + "이 없습니다.");
-					}
-					else {
-						System.out.println(num + "개의 항목을 읽었습니다.");
-					}
+					System.out.println(num + "개의 항목을 읽었습니다.");
 					br.close();
 				
 			} catch (IOException e) {
@@ -139,7 +133,8 @@ public class TodoUtil {
 					
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("파일을 찾을 수 없습니다.");
 		}
 	}
 }
