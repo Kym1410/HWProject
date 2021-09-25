@@ -22,7 +22,6 @@ public class TodoMain {
 			Menu.prompt();
 			String choice = sc.nextLine()+" .";
 			String choiceOp[] = choice.split(" ");
-			System.out.println(choiceOp[0] + "-" + choiceOp[1]);
 			
 			switch (choiceOp[0]) {
 

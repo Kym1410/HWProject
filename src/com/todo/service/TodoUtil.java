@@ -93,7 +93,36 @@ public class TodoUtil {
 		System.out.println("Edit Item");
 		System.out.print("Enter the Edit item number > ");
 		int num = sc.nextInt();
-		String title = sc.nextLine().trim();
+		//String title = sc.nextLine().trim();
+		
+		for(TodoItem item : l.getList()) {
+			if(num == (l.indexOf(item)+1)) {
+				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getTitle() + "] "+ item.getCategory() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+				sc.nextLine();
+				System.out.println("enter the new title of the item");
+				String new_title = sc.nextLine().trim();
+				if (l.isDuplicate(new_title)) {
+					System.out.println("title can't be duplicate");
+					return;
+				}
+				
+				System.out.println("enter the new category ");
+				String new_category = sc.nextLine().trim();
+				
+				System.out.println("enter the new description ");
+				String new_description = sc.nextLine().trim();
+				
+				System.out.println("enter the new due_date");
+				String new_duedate = sc.nextLine().trim();
+				
+				l.deleteItem(item);
+				TodoItem t = new TodoItem(new_title, new_description, new_duedate, new_category);
+				l.addItem(t);
+				System.out.println("item updated");
+			}
+			
+		}
+		/*
 		if (!l.isDuplicate(title)) {
 			System.out.println("title doesn't exist");
 			return;
@@ -122,6 +151,7 @@ public class TodoUtil {
 				System.out.println("item updated");
 			}
 		}
+		*/
 
 	}
 
