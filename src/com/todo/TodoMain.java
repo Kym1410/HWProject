@@ -1,6 +1,7 @@
 package com.todo;
 
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import com.todo.dao.TodoList;
 import com.todo.menu.Menu;
@@ -19,8 +20,11 @@ public class TodoMain {
 		do {
 			isList = false;
 			Menu.prompt();
-			String choice = sc.next();
-			switch (choice) {
+			String choice = sc.nextLine()+" .";
+			String choiceOp[] = choice.split(" ");
+			System.out.println(choiceOp[0] + "-" + choiceOp[1]);
+			
+			switch (choiceOp[0]) {
 
 			case "add":
 				TodoUtil.createItem(l);
@@ -37,8 +41,13 @@ public class TodoMain {
 			case "ls":
 				TodoUtil.listAll(l);
 				break;
+				
 			case "help":
 				Menu.displaymenu();
+				break;
+				
+			case "find":
+				TodoUtil.findKeyword(l, choice);
 				break;
 
 			case "ls_name_asc":
@@ -68,6 +77,8 @@ public class TodoMain {
 				System.out.println("please enter one of the above mentioned command (도움말 - help)");
 				break;
 			}
+			
+			
 			
 			if(isList) TodoUtil.listAll(l);
 		} while (!quit);
