@@ -41,12 +41,20 @@ public class TodoMain {
 				TodoUtil.listAll(l);
 				break;
 				
+			case "ls_cate":
+				TodoUtil.listCategory(l);
+				break;
+				
 			case "help":
 				Menu.displaymenu();
 				break;
 				
 			case "find":
 				TodoUtil.findKeyword(l, choice);
+				break;
+				
+			case "find_cate":
+				TodoUtil.findCategory(l, choice);
 				break;
 
 			case "ls_name_asc":
@@ -66,6 +74,13 @@ public class TodoMain {
 				l.sortByDate();
 				isList = true;
 				System.out.println("날짜순으로 정렬됨.");
+				break;
+				
+			case "ls_date_desc":
+				l.sortByDate();
+				l.reverseList();
+				isList = true;
+				System.out.println("날짜역순으로 정렬됨.");
 				break;
 
 			case "exit":

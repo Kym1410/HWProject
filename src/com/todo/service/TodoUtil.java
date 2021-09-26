@@ -29,6 +29,7 @@ public class TodoUtil {
 			return;
 		}
 		
+		sc.nextLine();
 		System.out.println("Enter the Category");
 		category = sc.nextLine();
 		
@@ -160,8 +161,29 @@ public class TodoUtil {
 		size = l.getList().size();
 		System.out.println("전체 목록, " + "총 " + size + "개");
 		for (TodoItem item : l.getList()) {
-			System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getTitle() + "] "+ item.getCategory() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+			System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
 		}
+	}
+	public static void listCategory(TodoList l) {
+		List<String> categoryList = new ArrayList<String>();
+		
+		for(TodoItem item : l.getList()) {
+			if(!categoryList.contains(item.getCategory())) {
+				categoryList.add(item.getCategory());
+			}
+
+		}
+		int size = categoryList.size();
+		String cate;
+		for(int i = 0; i < size; i++) {
+			cate = categoryList.get(i) + " / ";
+			if(i == size-1) {
+				cate = cate.substring(0, cate.length()-2);
+			}
+			
+			System.out.print(cate);
+		}
+		
 	}
 	
 	public static void findKeyword(TodoList l, String word) {
@@ -172,7 +194,23 @@ public class TodoUtil {
 		
 		for(TodoItem item : l.getList()) {
 			if(item.toString().contains(keyword)) {
-				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getTitle() + "] "+ item.getCategory() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+				count++;
+			}
+			
+		}
+		System.out.println("총 " + count + "개의 항목을 찾았습니다.");
+	}
+	
+	public static void findCategory(TodoList l, String cate) {
+		int count = 0;
+		StringTokenizer st = new StringTokenizer(cate, " ");
+		String find = st.nextToken();
+		String keyword = st.nextToken();
+		
+		for(TodoItem item : l.getList()) {
+			if(item.getCategory().contains(keyword)) {
+				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
 				count++;
 			}
 			
@@ -201,8 +239,8 @@ public class TodoUtil {
 					while((oneline = br.readLine()) != null) {
 						num++;
 						StringTokenizer st = new StringTokenizer(oneline, "##");
-						String title = st.nextToken();
 						String category = st.nextToken();
+						String title = st.nextToken();
 						String desc = st.nextToken();
 						String due_date = st.nextToken();
 						String date = st.nextToken();
