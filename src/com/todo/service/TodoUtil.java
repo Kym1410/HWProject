@@ -21,12 +21,6 @@ public class TodoUtil {
 		
 		System.out.print("[항목추가]\n" + "제목 > ");
 		title = sc.nextLine();
-		/*
-		if (list.isDuplicate(title)) {
-			System.out.printf("title can't be duplicate");
-			return;
-		}
-		*/
 		sc.nextLine();
 		System.out.println("Enter the Category");
 		category = sc.nextLine();
