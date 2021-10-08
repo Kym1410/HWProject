@@ -19,151 +19,85 @@ public class TodoUtil {
 		String title, desc, category ,due_date;
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\n"
-				+ "========== Create item Section\n"
-				+ "enter the title\n");
-		
+		System.out.print("[항목추가]\n" + "제목 > ");
 		title = sc.nextLine();
+		/*
 		if (list.isDuplicate(title)) {
 			System.out.printf("title can't be duplicate");
 			return;
 		}
-		
+		*/
 		sc.nextLine();
 		System.out.println("Enter the Category");
 		category = sc.nextLine();
+		sc.nextLine();
 		
 		System.out.println("enter the description");
 		desc = sc.nextLine();
-		
+	
 		System.out.println("enter the due_date(YYYY/MM/DD)");
 		due_date = sc.nextLine();
 		
-		TodoItem t = new TodoItem(title, desc, due_date, category);
-		list.addItem(t);
+		TodoItem t = new TodoItem(category, title, desc, due_date);
+		if(list.addItem(t)>0) {
+			System.out.println("추가되었습니다.");
+		}
+		//list.addItem(t);
 	}
 
 	public static void deleteItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
-		/*
-		System.out.println("\n"
-				+ "========== Delete Item Section\n"
-				+ "enter the title of item to remove\n"
-				+ "\n"); */
-		//String title = sc.nextLine();
-		/*
-		for (TodoItem item : l.getList()) {
-			if (title.equals(item.getTitle())) {
-				l.deleteItem(item);
-				break;
-			}
-		}
-		*/
+
 		System.out.println("[Delete Item]");
 		System.out.print("Enter the Delete Item number > ");
-		int num = sc.nextInt();
-		String check;
-		for(TodoItem item : l.getList()) {
-			if(num == (l.indexOf(item) + 1)) {
-				System.out.println(item.toString());
-				System.out.print("위 항목을 삭제하시겠습니까? (y/n) > ");
-				check = sc.next().trim();
-				if(check.equals("y")) {
-					l.deleteItem(item);
-					System.out.print("삭제되었습니다.");
-				}
-				else {
-					System.out.print("취소되었습니다.");
-				}
-				break;
-			}
+		int index = sc.nextInt();
+		if(l.deleteItem(index) > 0) {
+			System.out.println("삭제되었습니다.");
 		}
 	}
 
 
 	public static void updateItem(TodoList l) {
 		
+		String new_title, new_desc, new_category, new_due_date;
 		Scanner sc = new Scanner(System.in);
-		/*
-		System.out.println("\n"
-				+ "========== Edit Item Section\n"
-				+ "enter the title of the item you want to update\n"
-				+ "\n");
-				*/
+		
 		System.out.println("Edit Item");
 		System.out.print("Enter the Edit item number > ");
-		int num = sc.nextInt();
-		//String title = sc.nextLine().trim();
+		int index = sc.nextInt();
 		
-		for(TodoItem item : l.getList()) {
-			if(num == (l.indexOf(item)+1)) {
-				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getTitle() + "] "+ item.getCategory() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
-				sc.nextLine();
-				System.out.println("enter the new title of the item");
-				String new_title = sc.nextLine().trim();
-				if (l.isDuplicate(new_title)) {
-					System.out.println("title can't be duplicate");
-					return;
-				}
-				
-				System.out.println("enter the new category ");
-				String new_category = sc.nextLine().trim();
-				
-				System.out.println("enter the new description ");
-				String new_description = sc.nextLine().trim();
-				
-				System.out.println("enter the new due_date");
-				String new_duedate = sc.nextLine().trim();
-				
-				l.deleteItem(item);
-				TodoItem t = new TodoItem(new_title, new_description, new_duedate, new_category);
-				l.addItem(t);
-				System.out.println("item updated");
-			}
+		System.out.print("new title > ");
+		new_title = sc.next().trim();
+		
+		System.out.print("new category > ");
+		new_category = sc.next().trim();
+		
+		System.out.print("new desc > ");
+		new_desc = sc.next().trim();
+		sc.nextLine();
+		
+		System.out.print("new due date > ");
+		new_due_date = sc.next().trim();
+		
+	
 			
+		TodoItem t = new TodoItem(new_category, new_title, new_desc, new_due_date);
+		t.setId(index);
+		if(l.updateItem(t) > 0) {
+			System.out.println("수정되었습니다.");
 		}
-		/*
-		if (!l.isDuplicate(title)) {
-			System.out.println("title doesn't exist");
-			return;
-		}
-
-		System.out.println("enter the new title of the item");
-		String new_title = sc.nextLine().trim();
-		if (l.isDuplicate(new_title)) {
-			System.out.println("title can't be duplicate");
-			return;
-		}
-		System.out.println("enter the new category ");
-		String new_category = sc.nextLine();
-		
-		System.out.println("enter the new description ");
-		String new_description = sc.nextLine().trim();
-		
-		System.out.println("enter the new due_date");
-		String new_duedate = sc.nextLine().trim();
-		
-		for (TodoItem item : l.getList()) {
-			if (item.getTitle().equals(title)) {
-				l.deleteItem(item);
-				TodoItem t = new TodoItem(new_title, new_description, new_duedate, new_category);
-				l.addItem(t);
-				System.out.println("item updated");
-			}
-		}
-		*/
-
+		System.out.println("item updated");
 	}
 
+	
 	public static void listAll(TodoList l) {
-		int size;
-		size = l.getList().size();
-		System.out.println("전체 목록, " + "총 " + size + "개");
+		System.out.printf("[전체 목록, 총 %d개]\n", l.getCount());
 		for (TodoItem item : l.getList()) {
-			System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+			System.out.println(item.toString());
 		}
 	}
+	
 	public static void listCategory(TodoList l) {
 		List<String> categoryList = new ArrayList<String>();
 		
@@ -230,6 +164,7 @@ public class TodoUtil {
 			e.printStackTrace();
 		}
 	}
+	/*
 	public static void loadList(TodoList l, String filename) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -263,4 +198,5 @@ public class TodoUtil {
 			System.out.println("파일을 찾을 수 없습니다.");
 		}
 	}
+	*/
 }

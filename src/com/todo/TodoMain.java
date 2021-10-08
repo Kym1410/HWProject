@@ -13,9 +13,11 @@ public class TodoMain {
 	
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
+		//l.importData("todolist.txt");
+		
 		boolean isList = false;
 		boolean quit = false;
-		TodoUtil.loadList(l, "todolist.txt");
+		//TodoUtil.loadList(l, "todolist.txt");
 		Menu.displaymenu();
 		do {
 			isList = false;
@@ -56,7 +58,7 @@ public class TodoMain {
 			case "find_cate":
 				TodoUtil.findCategory(l, choice);
 				break;
-
+			
 			case "ls_name_asc":
 				l.sortByName();
 				isList = true;
@@ -82,7 +84,7 @@ public class TodoMain {
 				isList = true;
 				System.out.println("날짜역순으로 정렬됨.");
 				break;
-
+			
 			case "exit":
 				quit = true;
 				break;
