@@ -120,7 +120,7 @@ public class TodoUtil {
 		String find = st.nextToken();
 		String keyword = st.nextToken();
 		
-		for(TodoItem item : l.getList()) {
+		for(TodoItem item : l.getList(keyword)) {
 			if(item.toString().contains(keyword)) {
 				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
 				count++;
@@ -128,6 +128,16 @@ public class TodoUtil {
 			
 		}
 		System.out.println("총 " + count + "개의 항목을 찾았습니다.");
+	}
+	
+	public static void findList(TodoList l, String keyword) {
+		int count = 0;
+		for(TodoItem item : l.getList(keyword)) {
+			System.out.println(item.toString());
+			count++;
+		}
+		System.out.printf("총 %d개의 항목을 찾았습니다.\n", count);
+		System.out.print(count);
 	}
 	
 	public static void findCategory(TodoList l, String cate) {
@@ -158,39 +168,22 @@ public class TodoUtil {
 			e.printStackTrace();
 		}
 	}
-	/*
-	public static void loadList(TodoList l, String filename) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(filename));
-			try {
-				String oneline;
-				int num=0;
-					while((oneline = br.readLine()) != null) {
-						num++;
-						StringTokenizer st = new StringTokenizer(oneline, "##");
-						String category = st.nextToken();
-						String title = st.nextToken();
-						String desc = st.nextToken();
-						String due_date = st.nextToken();
-						String date = st.nextToken();
-						TodoItem item = new TodoItem(title, desc, date, due_date, category);
-						l.addItem(item);
-					}
-					System.out.println(num + "개의 항목을 읽었습니다.");
-					br.close();
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-					
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			System.out.println("파일을 찾을 수 없습니다.");
+	
+	public static void listCateAll(TodoList l) {
+		int count = 0;
+		for(String item : l.getCategories()) {
+			System.out.print(item + " ");
+			count++;
 		}
+		System.out.printf("\n총 %d개의 카테고리가 등록되어 있습니다.\n", count);
 	}
-	*/
+	
+	public static void findCateList(TodoList l, String cate) {
+		int count = 0;
+		for(TodoItem item : l.getListCategories(cate)) {
+			System.out.println(item.toString());
+			count++;
+		}
+		System.out.printf("\n총 %d개의 항목을 찾았습니다.\n", count);
+	}
 }

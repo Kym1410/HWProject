@@ -44,7 +44,7 @@ public class TodoMain {
 				break;
 				
 			case "ls_cate":
-				TodoUtil.listCategory(l);
+				TodoUtil.listCateAll(l);
 				break;
 				
 			case "help":
@@ -52,11 +52,13 @@ public class TodoMain {
 				break;
 				
 			case "find":
-				TodoUtil.findKeyword(l, choice);
+				String keyword = choice;
+				TodoUtil.findList(l, choice);
 				break;
 				
 			case "find_cate":
-				TodoUtil.findCategory(l, choice);
+				String cate = choice;
+				TodoUtil.findCateList(l, cate);
 				break;
 			
 			case "ls_name_asc":

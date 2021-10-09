@@ -2,6 +2,7 @@ package com.todo.dao;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,10 @@ import com.todo.service.TodoSortByName;
 
 public class TodoList {
 	private List<TodoItem> list;
+	public void setList(List<TodoItem> list) {
+		this.list = list;
+	}
+
 	private Connection conn;
 	private int count;
 	
@@ -135,12 +140,41 @@ public class TodoList {
 		return list;
 		//return new ArrayList<TodoItem>(list);
 	}
+	
+	public ArrayList<TodoItem> getList(String keyword) {
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		PreparedStatement pstmt;
+		keyword = "'%"+keyword+"%'";
+		try {
+			String sql = "SELECT * FROM list WHERE title like ? or memo like ?;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			pstmt.close();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String description = rs.getString("memo");
+				String due_date = rs.getString("due_date");
+				String current_date = rs.getString("current_date");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				t.setId(id);	//set id check!!
+				t.setCurrent_date(current_date);
+				list.add(t);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	public void sortByName() {
 		Collections.sort(list, new TodoSortByName());
-
 	}
-
+	
 	public void listAll() {
 		System.out.println("\n"
 				+ "inside list_All method\n");
@@ -202,6 +236,53 @@ public class TodoList {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public ArrayList<String> getCategories(){
+		ArrayList<String> list = new ArrayList<String>();
+		Statement stmt;
+		String sql = "SELECT DISTINCT category FROM list;";
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			while(rs.next()) {
+				String result = rs.getString("category");
+				list.add(result);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<TodoItem> getListCategories(String keyword){
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		PreparedStatement pstmt;
+		try {
+			String sql = "SELECT * FROM list WHERE category = ?;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String description = rs.getString("memo");
+				String due_date = rs.getString("due_date");
+				String current_date = rs.getString("current_date");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				t.setId(id);	//set id check!!
+				t.setCurrent_date(current_date);
+				list.add(t);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 }
