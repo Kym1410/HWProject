@@ -22,10 +22,11 @@ public class TodoMain {
 		do {
 			isList = false;
 			Menu.prompt();
-			String choice = sc.nextLine()+" .";
-			String choiceOp[] = choice.split(" ");
+			//String choice = sc.nextLine()+" .";
+			//String choiceOp[] = choice.split(" ");
+			String choice = sc.next();
 			
-			switch (choiceOp[0]) {
+			switch (choice) {
 
 			case "add":
 				TodoUtil.createItem(l);
@@ -52,8 +53,8 @@ public class TodoMain {
 				break;
 				
 			case "find":
-				String keyword = choice;
-				TodoUtil.findList(l, choice);
+				String keyword = sc.nextLine().trim();
+				TodoUtil.findList(l, keyword);
 				break;
 				
 			case "find_cate":
@@ -68,23 +69,18 @@ public class TodoMain {
 				break;
 
 			case "ls_name_desc":
-				l.sortByName();
-				l.reverseList();
-				isList = true;
 				System.out.println("제목역순으로 정렬됨.");
+				TodoUtil.listAll(l, "title", 0);
 				break;
 				
 			case "ls_date":
-				l.sortByDate();
-				isList = true;
 				System.out.println("날짜순으로 정렬됨.");
+				TodoUtil.listAll(l, "due_date", 1);
 				break;
 				
 			case "ls_date_desc":
-				l.sortByDate();
-				l.reverseList();
-				isList = true;
 				System.out.println("날짜역순으로 정렬됨.");
+				TodoUtil.listAll(l, "due_date", 0);
 				break;
 			
 			case "exit":

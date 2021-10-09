@@ -92,6 +92,13 @@ public class TodoUtil {
 		}
 	}
 	
+	public static void listAll(TodoList l, String orderby, int ordering) {
+		System.out.printf("[전체 목록, 총 %d개]\n", l.getCount());
+		for(TodoItem item : l.getOrderedList(orderby, ordering)) {
+			System.out.println(item.toString());
+		}
+	}
+	
 	public static void listCategory(TodoList l) {
 		List<String> categoryList = new ArrayList<String>();
 		
@@ -137,7 +144,6 @@ public class TodoUtil {
 			count++;
 		}
 		System.out.printf("총 %d개의 항목을 찾았습니다.\n", count);
-		System.out.print(count);
 	}
 	
 	public static void findCategory(TodoList l, String cate) {

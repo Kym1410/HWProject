@@ -138,21 +138,15 @@ public class TodoList {
 			e.printStackTrace();
 		}
 		return list;
-		//return new ArrayList<TodoItem>(list);
 	}
-	
+	/*
 	public ArrayList<TodoItem> getList(String keyword) {
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
-		PreparedStatement pstmt;
-		keyword = "'%"+keyword+"%'";
+		Statement stmt;
 		try {
-			String sql = "SELECT * FROM list WHERE title like ? or memo like ?;";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, keyword);
-			pstmt.setString(2, keyword);
-			ResultSet rs = pstmt.executeQuery();
-			rs.next();
-			pstmt.close();
+			stmt = conn.createStatement();
+			String sql = "SELECT * FROM list WHERE title like '%하기%' or memo like '%하기%';"; // ; 확인
+			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				String category = rs.getString("category");
@@ -165,12 +159,45 @@ public class TodoList {
 				t.setCurrent_date(current_date);
 				list.add(t);
 			}
+			stmt.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
-
+	*/
+	
+	public ArrayList<TodoItem> getList(String keyword) {
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		PreparedStatement pstmt;
+		//keyword = "%"+keyword+"%";
+		System.out.print(keyword + "\n");
+		try {
+			String sql = "SELECT * FROM list WHERE title like '%'||?||'%' or memo like '%'||?||'%'";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			ResultSet rs = pstmt.executeQuery();
+			//rs.next();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String description = rs.getString("memo");
+				String due_date = rs.getString("due_date");
+				String current_date = rs.getString("current_date");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				t.setId(id);
+				t.setCurrent_date(current_date);
+				list.add(t);
+			}
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	public void sortByName() {
 		Collections.sort(list, new TodoSortByName());
 	}
@@ -277,6 +304,22 @@ public class TodoList {
 				t.setId(id);	//set id check!!
 				t.setCurrent_date(current_date);
 				list.add(t);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<TodoItem> getOrderedList(String orderby, int ordering){
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			String sql = "SELECT * FROM list ORDER BY" + orderby;
+			if(ordering==0) {
+				sql += " desc";
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
