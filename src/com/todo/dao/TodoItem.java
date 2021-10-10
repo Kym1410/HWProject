@@ -40,7 +40,6 @@ public class TodoItem {
         this.due_date = due_date;
         SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
         this.current_date=f.format(new Date());
-        //this.is_completed = 0;
     }
 	
 	public TodoItem(int is_completed) {
@@ -57,6 +56,7 @@ public class TodoItem {
         this.due_date = due_date;
         SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
         this.current_date=f.format(new Date());
+        this.is_completed = is_completed;
     }
 	
 	public TodoItem(int id, String category, String title, String desc ,String due_date, String current_date){
@@ -68,6 +68,7 @@ public class TodoItem {
         this.current_date=f.format(new Date());
         this.category = category;
     }
+    
 	
 	public TodoItem(int id, String category, String title, String desc ,String due_date, String current_date, int is_completed){
 		this.id = id;
@@ -78,6 +79,8 @@ public class TodoItem {
         this.current_date=f.format(new Date());
         this.category = category;
     }
+    
+    
 	/*
 	public TodoItem(String title, String desc, String current_date) {
 		this.title=title;

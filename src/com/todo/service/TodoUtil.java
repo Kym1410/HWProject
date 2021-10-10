@@ -25,7 +25,7 @@ public class TodoUtil {
 			System.out.println("제목이 중복됩니다!");
 			return;
 		}
-		//sc.nextLine();
+		sc.nextLine();
 		System.out.println("Enter the Category");
 		category = sc.nextLine();
 		sc.nextLine();
@@ -69,6 +69,7 @@ public class TodoUtil {
 		
 		System.out.print("new category > ");
 		new_category = sc.next().trim();
+		sc.nextLine();
 		
 		System.out.print("new desc > ");
 		new_desc = sc.next().trim();
@@ -81,6 +82,7 @@ public class TodoUtil {
 			
 		TodoItem t = new TodoItem(new_category, new_title, new_desc, new_due_date);
 		t.setId(index);
+		t.setIs_completed(index);
 		if(l.updateItem(t) > 0) {
 			System.out.println("수정되었습니다.");
 		}
