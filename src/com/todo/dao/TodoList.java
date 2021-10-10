@@ -54,8 +54,8 @@ public class TodoList {
 	}
 
 	public int addItem(TodoItem t) {
-		String sql = "insert into list (title, memo, category, current_date, due_date)"
-				+ " values (?,?,?,?,?);";
+		String sql = "insert into list (title, memo, category, current_date, due_date, is_completed)"
+				+ " values (?,?,?,?,?,?);";
 		PreparedStatement pstmt;
 		int count = 0;
 		try {
@@ -65,6 +65,7 @@ public class TodoList {
 			pstmt.setString(3, t.getCategory());
 			pstmt.setString(4, t.getCurrent_date());
 			pstmt.setString(5, t.getDue_date());
+			pstmt.setInt(6, t.getIs_completed());
 			count = pstmt.executeUpdate();
 			pstmt.close();
 		}catch(SQLException e) {
@@ -151,7 +152,6 @@ public class TodoList {
 			pstmt.setString(1, keyword);
 			pstmt.setString(2, keyword);
 			ResultSet rs = pstmt.executeQuery();
-			//rs.next();
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				String category = rs.getString("category");
@@ -160,6 +160,64 @@ public class TodoList {
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
 				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				t.setId(id);
+				t.setCurrent_date(current_date);
+				list.add(t);
+			}
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<TodoItem> getList(int num) {
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		PreparedStatement pstmt;
+		//String comId = "%"+num+"%";
+		try {
+			String sql = "SELECT * FROM list WHERE id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String description = rs.getString("memo");
+				String due_date = rs.getString("due_date");
+				String current_date = rs.getString("current_date");
+				int is_completed = rs.getInt("is_completed");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, is_completed);
+				t.setId(id);
+				t.setCurrent_date(current_date);
+				list.add(t);
+			}
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<TodoItem> getCompList() {
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		PreparedStatement pstmt;
+		String comId = "1";
+		try {
+			String sql = "SELECT * FROM list WHERE is_completed=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, comId);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String description = rs.getString("memo");
+				String due_date = rs.getString("due_date");
+				String current_date = rs.getString("current_date");
+				int is_completed = rs.getInt("is_completed");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, is_completed);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				list.add(t);

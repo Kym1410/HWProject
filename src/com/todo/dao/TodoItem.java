@@ -10,7 +10,14 @@ public class TodoItem {
     private String category;
     private String due_date;
     private int id;
+    private int is_completed;
 
+	public int getIs_completed() {
+		return is_completed;
+	}
+	public void setIs_completed(int is_completed) {
+		this.is_completed = is_completed;
+	}
 	public int getId() {
 		return id;
 	}
@@ -27,6 +34,22 @@ public class TodoItem {
 	
 	
 	public TodoItem(String category, String title, String desc, String due_date){
+		this.category = category;
+        this.title=title;
+        this.desc=desc;
+        this.due_date = due_date;
+        SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+        this.current_date=f.format(new Date());
+        //this.is_completed = 0;
+    }
+	
+	public TodoItem(int is_completed) {
+		this.is_completed = is_completed;
+	}
+	
+
+	
+	public TodoItem(String category, String title, String desc, String due_date, int is_completed){
 		
 		this.category = category;
         this.title=title;
@@ -37,6 +60,16 @@ public class TodoItem {
     }
 	
 	public TodoItem(int id, String category, String title, String desc ,String due_date, String current_date){
+		this.id = id;
+        this.title=title;
+        this.desc=desc;
+        this.due_date = due_date;
+        SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+        this.current_date=f.format(new Date());
+        this.category = category;
+    }
+	
+	public TodoItem(int id, String category, String title, String desc ,String due_date, String current_date, int is_completed){
 		this.id = id;
         this.title=title;
         this.desc=desc;

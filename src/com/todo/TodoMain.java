@@ -61,6 +61,15 @@ public class TodoMain {
 				String cate = sc.nextLine().trim();
 				TodoUtil.findCateList(l, cate);
 				break;
+				
+			case "comp":
+				int num = sc.nextInt();
+				TodoUtil.is_completed(l, num);
+				break;
+				
+			case "ls_comp":
+				TodoUtil.listComp(l);
+				break;
 			
 			case "ls_name":
 				System.out.println("제목순으로 정렬하였습니다.");

@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class TodoUtil {
-	s
+	
 	public static void createItem(TodoList list) {
 		
 		String title, desc, category ,due_date;
@@ -21,7 +21,7 @@ public class TodoUtil {
 		System.out.print("[항목추가]\n" + "제목 > ");
 		title = sc.next();
 		// 제목 중복 체크
-		if(list.isDuplicate(title)) {
+		if(!list.isDuplicate(title)) {
 			System.out.println("제목이 중복됩니다!");
 			return;
 		}
@@ -40,7 +40,6 @@ public class TodoUtil {
 		if(list.addItem(t)>0) {
 			System.out.println("추가되었습니다.");
 		}
-		//list.addItem(t);
 	}
 
 	public static void deleteItem(TodoList l) {
@@ -87,6 +86,7 @@ public class TodoUtil {
 		}
 		System.out.println("item updated");
 	}
+	
 
 	
 	public static void listAll(TodoList l) {
@@ -100,6 +100,15 @@ public class TodoUtil {
 		System.out.printf("[전체 목록, 총 %d개]\n", l.getCount());
 		for(TodoItem item : l.getOrderedList(orderby, ordering)) {
 			System.out.println(item.toString());
+		}
+	}
+	//완료 목록 출
+	public static void listComp(TodoList l) {
+		//System.out.printf("[완료 목록, 총 %d개]\n", l.getCount());
+		int count = 0;
+		for (TodoItem item : l.getCompList()) {
+			System.out.println(item.toString());
+			count++;
 		}
 	}
 	
@@ -148,6 +157,27 @@ public class TodoUtil {
 			count++;
 		}
 		System.out.printf("총 %d개의 항목을 찾았습니다.\n", count);
+	}
+	
+	//완료 체크
+	public static void is_completed(TodoList l ,int num) {
+		int new_is_completed;
+		for(TodoItem item : l.getList(num)) {
+			
+			//new_title = item.getTitle()+"[V]";
+			new_is_completed = 1;		
+			TodoItem t = new TodoItem(new_is_completed);
+			t.setId(num);
+			t.setCategory(item.getCategory());
+			t.setTitle(item.getTitle() + "[V]");
+			t.setCurrent_date(item.getCurrent_date());
+			t.setDesc(item.getDesc());
+			t.setDue_date(item.getDue_date());
+			if(l.updateItem(t) > 0) {
+				System.out.println("완료 체크하였습니다.");
+			}
+		}
+		//System.out.println("완료 체크하였습니다.");	
 	}
 	
 	public static void findCategory(TodoList l, String cate) {
