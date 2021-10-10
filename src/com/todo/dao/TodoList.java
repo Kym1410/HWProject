@@ -15,6 +15,7 @@ import com.todo.service.TodoSortByDate;
 import com.todo.service.TodoSortByName;
 
 public class TodoList {
+	
 	private List<TodoItem> list;
 	public void setList(List<TodoItem> list) {
 		this.list = list;

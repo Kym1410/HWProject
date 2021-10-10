@@ -24,7 +24,8 @@ public class TodoItem {
 	public String toString() {
 		return id + " " + "[" + category + "] " + title + " - " + desc + " - " + due_date + " - " + current_date;
 	}
-
+	
+	
 	public TodoItem(String category, String title, String desc, String due_date){
 		
 		this.category = category;

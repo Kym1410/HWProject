@@ -12,8 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class TodoUtil {
-	
-	
+	s
 	public static void createItem(TodoList list) {
 		
 		String title, desc, category ,due_date;
