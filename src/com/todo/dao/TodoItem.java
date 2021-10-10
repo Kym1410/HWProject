@@ -33,6 +33,7 @@ public class TodoItem {
 	}
 	
 	
+	
 	public TodoItem(String category, String title, String desc, String due_date){
 		this.category = category;
         this.title=title;

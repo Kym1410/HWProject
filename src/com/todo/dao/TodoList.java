@@ -176,14 +176,14 @@ public class TodoList {
 		PreparedStatement pstmt;
 		//String comId = "%"+num+"%";
 		try {
-			String sql = "SELECT * FROM list WHERE id=?";
+			String sql = "SELECT * FROM list WHERE is_completed=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				String category = rs.getString("category");
-				String title = rs.getString("title");
+				String title = rs.getString("title") + "[V]";
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
@@ -198,6 +198,24 @@ public class TodoList {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	public int completeItem(int index) {
+		String sql = "update list set is_completed = ? where id = ?;";
+		PreparedStatement pstmt;
+		int count = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, 1);
+			pstmt.setInt(2, index);
+			count = pstmt.executeUpdate();
+			pstmt.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 	public ArrayList<TodoItem> getCompList() {

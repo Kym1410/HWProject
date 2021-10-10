@@ -98,6 +98,16 @@ public class TodoUtil {
 		}
 	}
 	
+	public static void listAll(TodoList l, int is_completed) {
+		int count = 0;
+		for(TodoItem item : l.getList(is_completed)) {
+			System.out.println(item.toString());
+			count++;
+		}
+		System.out.println("총 " + count + "개의 항목이 완료되었습니다.");
+		
+	}
+	
 	public static void listAll(TodoList l, String orderby, int ordering) {
 		System.out.printf("[전체 목록, 총 %d개]\n", l.getCount());
 		for(TodoItem item : l.getOrderedList(orderby, ordering)) {
@@ -162,8 +172,9 @@ public class TodoUtil {
 	}
 	
 	//완료 체크
-	public static void is_completed(TodoList l ,int num) {
-		int new_is_completed;
+	public static void completeItem(TodoList l ,int index) {
+		//int new_is_completed = 1;
+		/*
 		for(TodoItem item : l.getList(num)) {
 			
 			//new_title = item.getTitle()+"[V]";
@@ -179,7 +190,10 @@ public class TodoUtil {
 				System.out.println("완료 체크하였습니다.");
 			}
 		}
-		//System.out.println("완료 체크하였습니다.");	
+		*/
+		if(l.completeItem(index) > 0) {
+			System.out.println("완료 체크하였습니다.");
+		}
 	}
 	
 	public static void findCategory(TodoList l, String cate) {

@@ -64,11 +64,11 @@ public class TodoMain {
 				
 			case "comp":
 				int num = sc.nextInt();
-				TodoUtil.is_completed(l, num);
+				TodoUtil.completeItem(l, num);
 				break;
 				
 			case "ls_comp":
-				TodoUtil.listComp(l);
+				TodoUtil.listAll(l,1);
 				break;
 			
 			case "ls_name":
