@@ -20,8 +20,13 @@ public class TodoUtil {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.print("[항목추가]\n" + "제목 > ");
-		title = sc.nextLine();
-		sc.nextLine();
+		title = sc.next();
+		// 제목 중복 체크
+		if(list.isDuplicate(title)) {
+			System.out.println("제목이 중복됩니다!");
+			return;
+		}
+		//sc.nextLine();
 		System.out.println("Enter the Category");
 		category = sc.nextLine();
 		sc.nextLine();

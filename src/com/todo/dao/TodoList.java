@@ -139,41 +139,13 @@ public class TodoList {
 		}
 		return list;
 	}
-	/*
-	public ArrayList<TodoItem> getList(String keyword) {
-		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
-		Statement stmt;
-		try {
-			stmt = conn.createStatement();
-			String sql = "SELECT * FROM list WHERE title like '%하기%' or memo like '%하기%';"; // ; 확인
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				int id = rs.getInt("id");
-				String category = rs.getString("category");
-				String title = rs.getString("title");
-				String description = rs.getString("memo");
-				String due_date = rs.getString("due_date");
-				String current_date = rs.getString("current_date");
-				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
-				t.setId(id);	//set id check!!
-				t.setCurrent_date(current_date);
-				list.add(t);
-			}
-			stmt.close();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-	*/
 	
 	public ArrayList<TodoItem> getList(String keyword) {
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		PreparedStatement pstmt;
-		//keyword = "%"+keyword+"%";
-		System.out.print(keyword + "\n");
+		keyword = "%"+keyword+"%";
 		try {
-			String sql = "SELECT * FROM list WHERE title like '%'||?||'%' or memo like '%'||?||'%'";
+			String sql = "SELECT * FROM list WHERE title like ? or memo like ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, keyword);
 			pstmt.setString(2, keyword);
@@ -197,6 +169,7 @@ public class TodoList {
 		}
 		return list;
 	}
+	
 	
 	public void sortByName() {
 		Collections.sort(list, new TodoSortByName());
@@ -224,9 +197,11 @@ public class TodoList {
 
 	public Boolean isDuplicate(String title) {
 		for (TodoItem item : list) {
-			if (title.equals(item.getTitle())) return true;
+			if (title.equals(item.getTitle())) {
+				return false;
+				}
 		}
-		return false;
+		return true;
 	}
 	
 	public void importData(String filename) {
@@ -272,7 +247,7 @@ public class TodoList {
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			rs.next();
+			//rs.next();
 			while(rs.next()) {
 				String result = rs.getString("category");
 				list.add(result);
@@ -292,7 +267,6 @@ public class TodoList {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, keyword);
 			ResultSet rs = pstmt.executeQuery();
-			rs.next();
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				String category = rs.getString("category");
@@ -317,9 +291,22 @@ public class TodoList {
 		Statement stmt;
 		try {
 			stmt = conn.createStatement();
-			String sql = "SELECT * FROM list ORDER BY" + orderby;
+			String sql = "SELECT * FROM list ORDER BY " + orderby;
 			if(ordering==0) {
 				sql += " desc";
+			}
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String description = rs.getString("memo");
+				String due_date = rs.getString("due_date");
+				String current_date = rs.getString("current_date");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				t.setId(id);
+				t.setCurrent_date(current_date);
+				list.add(t);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

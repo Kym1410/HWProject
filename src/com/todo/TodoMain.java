@@ -58,14 +58,13 @@ public class TodoMain {
 				break;
 				
 			case "find_cate":
-				String cate = choice;
+				String cate = sc.nextLine().trim();
 				TodoUtil.findCateList(l, cate);
 				break;
 			
-			case "ls_name_asc":
-				l.sortByName();
-				isList = true;
-				System.out.println("제목순으로 정렬됨.");
+			case "ls_name":
+				System.out.println("제목순으로 정렬하였습니다.");
+				TodoUtil.listAll(l, "title", 1);
 				break;
 
 			case "ls_name_desc":
