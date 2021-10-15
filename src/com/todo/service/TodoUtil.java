@@ -53,6 +53,21 @@ public class TodoUtil {
 			System.out.println("삭제되었습니다.");
 		}
 	}
+	
+public static void deleteCompItem(TodoList l) {
+		
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("[Delete Item]");
+		System.out.print("Enter the Delete Item number > ");
+		int index = sc.nextInt();
+		if(l.deleteCompItem(index) > 0) {
+			System.out.println("삭제되었습니다.");
+		}
+		else {
+			System.out.println("완료되지 않은 항목입니다.");
+		}
+	}
 
 
 	public static void updateItem(TodoList l) {
@@ -65,14 +80,15 @@ public class TodoUtil {
 		int index = sc.nextInt();
 		
 		System.out.print("new title > ");
-		new_title = sc.next().trim();
+		new_title = sc.nextLine().trim();
+		sc.nextLine();
 		
 		System.out.print("new category > ");
-		new_category = sc.next().trim();
+		new_category = sc.nextLine().trim();
 		sc.nextLine();
 		
 		System.out.print("new desc > ");
-		new_desc = sc.next().trim();
+		new_desc = sc.nextLine().trim();
 		sc.nextLine();
 		
 		System.out.print("new due date > ");
@@ -116,7 +132,6 @@ public class TodoUtil {
 	}
 	//완료 목록 출
 	public static void listComp(TodoList l) {
-		//System.out.printf("[완료 목록, 총 %d개]\n", l.getCount());
 		int count = 0;
 		for (TodoItem item : l.getCompList()) {
 			System.out.println(item.toString());
@@ -173,26 +188,14 @@ public class TodoUtil {
 	
 	//완료 체크
 	public static void completeItem(TodoList l ,int index) {
-		//int new_is_completed = 1;
-		/*
-		for(TodoItem item : l.getList(num)) {
-			
-			//new_title = item.getTitle()+"[V]";
-			new_is_completed = 1;		
-			TodoItem t = new TodoItem(new_is_completed);
-			t.setId(num);
-			t.setCategory(item.getCategory());
-			t.setTitle(item.getTitle() + "[V]");
-			t.setCurrent_date(item.getCurrent_date());
-			t.setDesc(item.getDesc());
-			t.setDue_date(item.getDue_date());
-			if(l.updateItem(t) > 0) {
-				System.out.println("완료 체크하였습니다.");
-			}
-		}
-		*/
 		if(l.completeItem(index) > 0) {
 			System.out.println("완료 체크하였습니다.");
+		}
+	}
+	//완료 해제
+	public static void completeItemBack(TodoList l ,int index) {
+		if(l.completeItemBack(index) > 0) {
+			System.out.println("완료 해제하였습니다.");
 		}
 	}
 	
@@ -232,6 +235,15 @@ public class TodoUtil {
 			count++;
 		}
 		System.out.printf("\n총 %d개의 카테고리가 등록되어 있습니다.\n", count);
+	}
+	
+	public static void listCompCate(TodoList l) {
+		int count = 0;
+		for(String item : l.getCompCategories()) {
+			System.out.print(item + " ");
+			count++;
+		}
+		System.out.printf("\n총 %d개의 카테고리가 완되어 있습니다.\n", count);
 	}
 	
 	public static void findCateList(TodoList l, String cate) {

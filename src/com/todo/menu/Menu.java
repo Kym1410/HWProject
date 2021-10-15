@@ -10,13 +10,15 @@ public class Menu {
         System.out.println("4. Find Keyworld ( find + keyword )");
         System.out.println("5, Find Category ( find_cate + category )");
         System.out.println("6. Show option (help) ");
-        System.out.println("7. List all items ( ls )");
-        System.out.println("8. List all Category ( ls_cate )");
-        System.out.println("9. sort the list by name ( ls_name_asc )");
-        System.out.println("10. sort the list by name ( ls_name_desc )");
-        System.out.println("11. sort the list by date ( ls_date )");
-        System.out.println("12. sort the list by date_desc (ls_date_desc)");
-        System.out.println("13. exit (Or press escape key to exit)");
+        System.out.println("7. Check complete Item (comp + ID) ");
+        System.out.println("8. List all items ( ls )");
+        System.out.println("9. List all Category ( ls_cate )");
+        System.out.println("10. List all complete list ( ls_comp )");
+        System.out.println("11. sort the list by name ( ls_name_asc )");
+        System.out.println("12. sort the list by name ( ls_name_desc )");
+        System.out.println("13. sort the list by date ( ls_date )");
+        System.out.println("14. sort the list by date_desc (ls_date_desc)");
+        System.out.println("15. exit (Or press escape key to exit)");
     }
     public static void prompt() {
     	System.out.print("\nCommand > ");

@@ -13,17 +13,13 @@ public class TodoMain {
 	
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
-		//l.importData("todolist.txt");
 		
 		boolean isList = false;
 		boolean quit = false;
-		//TodoUtil.loadList(l, "todolist.txt");
 		Menu.displaymenu();
 		do {
 			isList = false;
 			Menu.prompt();
-			//String choice = sc.nextLine()+" .";
-			//String choiceOp[] = choice.split(" ");
 			String choice = sc.next();
 			
 			switch (choice) {
@@ -36,6 +32,10 @@ public class TodoMain {
 				TodoUtil.deleteItem(l);
 				break;
 				
+			case "del_comp":
+				TodoUtil.deleteCompItem(l);
+				break;
+				
 			case "edit":
 				TodoUtil.updateItem(l);
 				break;
@@ -46,6 +46,10 @@ public class TodoMain {
 				
 			case "ls_cate":
 				TodoUtil.listCateAll(l);
+				break;
+				
+			case "ls_comp_cate":
+				TodoUtil.listCompCate(l);
 				break;
 				
 			case "help":
@@ -65,6 +69,11 @@ public class TodoMain {
 			case "comp":
 				int num = sc.nextInt();
 				TodoUtil.completeItem(l, num);
+				break;
+				
+			case "edit_comp":
+				int ednum = sc.nextInt();
+				TodoUtil.completeItemBack(l, ednum);
 				break;
 				
 			case "ls_comp":

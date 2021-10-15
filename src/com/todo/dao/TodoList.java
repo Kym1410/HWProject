@@ -88,6 +88,21 @@ public class TodoList {
 		}
 		return count;
 	}
+	
+	public int deleteCompItem(int index) {
+		String sql = "delete from list where id=? and is_completed = 1;";
+		PreparedStatement pstmt;
+		int count = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, index);
+			count = pstmt.executeUpdate();
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 	void editItem(TodoItem t, TodoItem updated) {
 		int index = list.indexOf(t);
@@ -218,6 +233,24 @@ public class TodoList {
 		return count;
 	}
 	
+	public int completeItemBack(int index) {
+		String sql = "update list set is_completed = ? where id = ?;";
+		PreparedStatement pstmt;
+		int count = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, 0);
+			pstmt.setInt(2, index);
+			count = pstmt.executeUpdate();
+			pstmt.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
 	public ArrayList<TodoItem> getCompList() {
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		PreparedStatement pstmt;
@@ -321,6 +354,25 @@ public class TodoList {
 		ArrayList<String> list = new ArrayList<String>();
 		Statement stmt;
 		String sql = "SELECT DISTINCT category FROM list;";
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			//rs.next();
+			while(rs.next()) {
+				String result = rs.getString("category");
+				list.add(result);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<String> getCompCategories(){
+		ArrayList<String> list = new ArrayList<String>();
+		Statement stmt;
+		String sql = "SELECT DISTINCT category FROM list WHERE is_completed = 1;";
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
