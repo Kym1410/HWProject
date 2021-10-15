@@ -54,8 +54,8 @@ public class TodoList {
 	}
 
 	public int addItem(TodoItem t) {
-		String sql = "insert into list (title, memo, category, current_date, due_date, is_completed)"
-				+ " values (?,?,?,?,?,?);";
+		String sql = "insert into list (title, memo, category, current_date, due_date, is_completed, due_hour, level)"
+				+ " values (?,?,?,?,?,?,?,?);";
 		PreparedStatement pstmt;
 		int count = 0;
 		try {
@@ -66,6 +66,8 @@ public class TodoList {
 			pstmt.setString(4, t.getCurrent_date());
 			pstmt.setString(5, t.getDue_date());
 			pstmt.setInt(6, t.getIs_completed());
+			pstmt.setString(7, t.getDue_hour());
+			pstmt.setString(8, t.getLevel());
 			count = pstmt.executeUpdate();
 			pstmt.close();
 		}catch(SQLException e) {
@@ -73,7 +75,21 @@ public class TodoList {
 		}
 		return count;
 	}
-
+	
+	public void addCategory(String category) {
+		String sql = "insert into Category (category) values (?);";
+		PreparedStatement pstmt;
+		int count = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, category);
+			count = pstmt.executeUpdate();
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public int deleteItem(int index) {
 		String sql = "delete from list where id=?;";
 		PreparedStatement pstmt;
@@ -87,6 +103,22 @@ public class TodoList {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	
+	public void deleteCate() {
+		String sql = "delete from Category where id=?;";
+		PreparedStatement pstmt;
+		int count;
+		try {
+			for(count = 1; count<20; count++) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, count);
+				count = pstmt.executeUpdate();
+				pstmt.close();
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public int deleteCompItem(int index) {
@@ -111,7 +143,7 @@ public class TodoList {
 	}
 	
 	public int updateItem(TodoItem t) {
-		String sql = "update list set title=?, memo=?, category=?, current_date=?, due_date=?"
+		String sql = "update list set title=?, memo=?, category=?, current_date=?, due_date=?, due_hour=?, level=?"
 				+ " where id = ?;";
 		PreparedStatement pstmt;
 		int count = 0;
@@ -122,7 +154,9 @@ public class TodoList {
 			pstmt.setString(3, t.getCategory());
 			pstmt.setString(4, t.getCurrent_date());
 			pstmt.setString(5, t.getDue_date());
-			pstmt.setInt(6, t.getId());
+			pstmt.setString(6, t.getDue_hour());
+			pstmt.setString(7, t.getLevel());
+			pstmt.setInt(8, t.getId());
 			count = pstmt.executeUpdate();
 			pstmt.close();
 		}catch(SQLException e) {
@@ -145,7 +179,9 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
-				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				String due_hour = rs.getString("due_hour");
+				String level = rs.getString("level");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, due_hour, level);
 				t.setId(id);	//set id check!!
 				t.setCurrent_date(current_date);
 				list.add(t);
@@ -174,7 +210,9 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
-				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				String due_hour = rs.getString("due_hour");
+				String level = rs.getString("level");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, due_hour, level);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				list.add(t);
@@ -203,7 +241,9 @@ public class TodoList {
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
 				int is_completed = rs.getInt("is_completed");
-				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, is_completed);
+				String due_hour = rs.getString("due_hour");
+				String level = rs.getString("level");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, is_completed, due_hour, level);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				list.add(t);
@@ -268,7 +308,9 @@ public class TodoList {
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
 				int is_completed = rs.getInt("is_completed");
-				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, is_completed);
+				String due_hour = rs.getString("due_hour");
+				String level = rs.getString("level");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, is_completed, due_hour, level);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				list.add(t);
@@ -318,8 +360,8 @@ public class TodoList {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filename));
 			String line;
-			String sql = "insert into list (categiry, title, memo, due_date, current_date)"
-					+ " values (?,?,?,?,?);";
+			String sql = "insert into list (categiry, title, memo, due_date, current_date, due_hour, level)"
+					+ " values (?,?,?,?,?,?,?);";
 			int records = 0;
 			while((line = br.readLine())!=null) {
 				StringTokenizer st = new StringTokenizer(line, "##");
@@ -328,6 +370,8 @@ public class TodoList {
 				String description = st.nextToken();
 				String due_date = st.nextToken();
 				String current_date = st.nextToken();
+				String due_hour = st.nextToken();
+				String level = st.nextToken();
 				
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, category);
@@ -335,6 +379,8 @@ public class TodoList {
 				pstmt.setString(3, description);
 				pstmt.setString(4, due_date);
 				pstmt.setString(5, current_date);
+				pstmt.setString(6, due_hour);
+				pstmt.setString(7, level);
 				int count = pstmt.executeUpdate();
 				if(count > 0) {
 					records++;
@@ -403,7 +449,9 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
-				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				String due_hour = rs.getString("due_hour");
+				String level = rs.getString("level");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, due_hour, level);
 				t.setId(id);	//set id check!!
 				t.setCurrent_date(current_date);
 				list.add(t);
@@ -432,7 +480,9 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
-				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date);
+				String due_hour = rs.getString("due_hour");
+				String level = rs.getString("level");
+				TodoItem t = new TodoItem(id, category,title, description, due_date, current_date, due_hour, level);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				list.add(t);

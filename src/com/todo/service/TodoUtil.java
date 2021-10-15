@@ -15,7 +15,7 @@ public class TodoUtil {
 	
 	public static void createItem(TodoList list) {
 		
-		String title, desc, category ,due_date;
+		String title, desc, category ,due_date, due_hour, level;
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.print("[항목추가]\n" + "제목 > ");
@@ -36,7 +36,12 @@ public class TodoUtil {
 		System.out.println("enter the due_date(YYYY/MM/DD)");
 		due_date = sc.nextLine();
 		
-		TodoItem t = new TodoItem(category, title, desc, due_date);
+		System.out.println("enter the due_hour(HH:MM)");
+		due_hour = sc.nextLine();
+		
+		System.out.println("enter the level(easy/normal/hard)");
+		level = sc.nextLine();
+		TodoItem t = new TodoItem(category, title, desc, due_date, due_hour, level);
 		if(list.addItem(t)>0) {
 			System.out.println("추가되었습니다.");
 		}
@@ -72,21 +77,20 @@ public static void deleteCompItem(TodoList l) {
 
 	public static void updateItem(TodoList l) {
 		
-		String new_title, new_desc, new_category, new_due_date;
+		String new_title, new_desc, new_category, new_due_date, new_due_hour, new_level;
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("Edit Item");
 		System.out.print("Enter the Edit item number > ");
 		int index = sc.nextInt();
-		
+		sc.nextLine();
 		System.out.print("new title > ");
-		new_title = sc.nextLine().trim();
+		new_title = sc.nextLine();
 		sc.nextLine();
 		
 		System.out.print("new category > ");
 		new_category = sc.nextLine().trim();
-		sc.nextLine();
-		
+	
 		System.out.print("new desc > ");
 		new_desc = sc.nextLine().trim();
 		sc.nextLine();
@@ -94,9 +98,15 @@ public static void deleteCompItem(TodoList l) {
 		System.out.print("new due date > ");
 		new_due_date = sc.next().trim();
 		
+		System.out.print("new due hour > ");
+		new_due_hour = sc.next().trim();
+		
+		System.out.print("new level > ");
+		new_level = sc.next().trim();
+		
 	
 			
-		TodoItem t = new TodoItem(new_category, new_title, new_desc, new_due_date);
+		TodoItem t = new TodoItem(new_category, new_title, new_desc, new_due_date, new_due_hour, new_level);
 		t.setId(index);
 		t.setIs_completed(index);
 		if(l.updateItem(t) > 0) {
@@ -169,7 +179,8 @@ public static void deleteCompItem(TodoList l) {
 		
 		for(TodoItem item : l.getList(keyword)) {
 			if(item.toString().contains(keyword)) {
-				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - "
+			+ item.getCurrent_date() + " - " + item.getDue_hour() + " - " + item.getLevel());
 				count++;
 			}
 			
@@ -207,7 +218,8 @@ public static void deleteCompItem(TodoList l) {
 		
 		for(TodoItem item : l.getList()) {
 			if(item.getCategory().contains(keyword)) {
-				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+				System.out.println((l.indexOf(item)+1) + ". " + "[" + item.getCategory() + "] "+ item.getTitle() + " - "  + item.getDesc() + " - " + item.getDue_date() + " - " 
+			+ item.getCurrent_date() + " - " + item.getDue_hour() + " - " + item.getLevel());
 				count++;
 			}
 			
@@ -231,10 +243,23 @@ public static void deleteCompItem(TodoList l) {
 	public static void listCateAll(TodoList l) {
 		int count = 0;
 		for(String item : l.getCategories()) {
+			
 			System.out.print(item + " ");
 			count++;
 		}
 		System.out.printf("\n총 %d개의 카테고리가 등록되어 있습니다.\n", count);
+	}
+	
+	public static void addCateAll(TodoList l) {
+		l.deleteCate();
+		int count = 0;
+		for(String item : l.getCategories()) {
+			
+			System.out.print(item + " ");
+			l.addCategory(item);
+			count++;
+		}
+		System.out.printf("\n총 %d개의 카테고리가 저장되었습니다.\n", count);
 	}
 	
 	public static void listCompCate(TodoList l) {

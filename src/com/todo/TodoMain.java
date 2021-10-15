@@ -28,6 +28,10 @@ public class TodoMain {
 				TodoUtil.createItem(l);
 				break;
 			
+			case "add_cate":
+				TodoUtil.addCateAll(l);
+				break;
+			
 			case "del":
 				TodoUtil.deleteItem(l);
 				break;

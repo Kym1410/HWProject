@@ -11,7 +11,21 @@ public class TodoItem {
     private String due_date;
     private int id;
     private int is_completed;
+    private String due_hour;
+    private String level;
 
+	public String getDue_hour() {
+		return due_hour;
+	}
+	public void setDue_hour(String due_hour) {
+		this.due_hour = due_hour;
+	}
+	public String getLevel() {
+		return level;
+	}
+	public void setLevel(String level) {
+		this.level = level;
+	}
 	public int getIs_completed() {
 		return is_completed;
 	}
@@ -29,18 +43,21 @@ public class TodoItem {
 
 	@Override
 	public String toString() {
-		return id + " " + "[" + category + "] " + title + " - " + desc + " - " + due_date + " - " + current_date;
+		return id + " " + "[" + category + "] " + title + " - " + desc + " - " + due_date + " - " + current_date
+				+ " - " + due_hour + " - " + level;
 	}
 	
-	
-	
-	public TodoItem(String category, String title, String desc, String due_date){
+	//new_category, new_title, new_desc, new_due_date, new_due_hour, new_level
+	//처음 생성시에 사용하는 생성자
+	public TodoItem(String category, String title, String desc, String due_date, String due_hour, String level){
 		this.category = category;
         this.title=title;
         this.desc=desc;
         this.due_date = due_date;
         SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
         this.current_date=f.format(new Date());
+        this.due_hour = due_hour;
+        this.level = level;
     }
 	
 	public TodoItem(int is_completed) {
@@ -60,7 +77,7 @@ public class TodoItem {
         this.is_completed = is_completed;
     }
 	
-	public TodoItem(int id, String category, String title, String desc ,String due_date, String current_date){
+	public TodoItem(int id, String category, String title, String desc ,String due_date, String current_date, String due_hour, String level){
 		this.id = id;
         this.title=title;
         this.desc=desc;
@@ -68,10 +85,12 @@ public class TodoItem {
         SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
         this.current_date=f.format(new Date());
         this.category = category;
+        this.due_hour = due_hour;
+        this.level = level;
     }
     
 	
-	public TodoItem(int id, String category, String title, String desc ,String due_date, String current_date, int is_completed){
+	public TodoItem(int id, String category, String title, String desc ,String due_date, String current_date, int is_completed, String due_hour, String level){
 		this.id = id;
         this.title=title;
         this.desc=desc;
@@ -79,6 +98,8 @@ public class TodoItem {
         SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
         this.current_date=f.format(new Date());
         this.category = category;
+        this.due_hour = due_hour;
+        this.level = level;
     }
     
 	public TodoItem(String category, String title, String desc, String due_date, String current_date) {
