@@ -50,12 +50,17 @@ public class TodoUtil {
 	public static void deleteItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
-		
+		while(true) {
 		System.out.println("[Delete Item]");
-		System.out.print("Enter the Delete Item number > ");
+		System.out.print("Enter the Delete Item number(0: exit) > ");
 		int index = sc.nextInt();
+		if(index == 0) {
+			System.out.println("중단됨!");
+			break;
+		}
 		if(l.deleteItem(index) > 0) {
 			System.out.println("삭제되었습니다.");
+		}
 		}
 	}
 	
@@ -199,8 +204,19 @@ public static void deleteCompItem(TodoList l) {
 	
 	//완료 체크
 	public static void completeItem(TodoList l ,int index) {
+		Scanner sc = new Scanner(System.in);
 		if(l.completeItem(index) > 0) {
 			System.out.println("완료 체크하였습니다.");
+			System.out.print("Enter 1 if consider complete Item(0: exit) > ");
+			int com = sc.nextInt();
+			if(com == 1) {
+				System.out.print("Enter the nunber to complete Item");
+				int num = sc.nextInt();
+				completeItem(l, num);
+			}
+			else {
+				System.out.println("완료 체크를 종료합니다.");
+			}
 		}
 	}
 	//완료 해제
