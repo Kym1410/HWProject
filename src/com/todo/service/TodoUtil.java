@@ -50,7 +50,7 @@ public class TodoUtil {
 	public static void deleteItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
-
+		
 		System.out.println("[Delete Item]");
 		System.out.print("Enter the Delete Item number > ");
 		int index = sc.nextInt();
@@ -251,7 +251,6 @@ public static void deleteCompItem(TodoList l) {
 	}
 	
 	public static void addCateAll(TodoList l) {
-		l.deleteCate();
 		int count = 0;
 		for(String item : l.getCategories()) {
 			

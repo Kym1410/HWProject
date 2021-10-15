@@ -105,21 +105,6 @@ public class TodoList {
 		return count;
 	}
 	
-	public void deleteCate() {
-		String sql = "delete from Category where id=?;";
-		PreparedStatement pstmt;
-		int count;
-		try {
-			for(count = 1; count<20; count++) {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, count);
-				count = pstmt.executeUpdate();
-				pstmt.close();
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public int deleteCompItem(int index) {
 		String sql = "delete from list where id=? and is_completed = 1;";
