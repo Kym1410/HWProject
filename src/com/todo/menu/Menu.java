@@ -18,7 +18,7 @@ public class Menu {
         System.out.println("9. List all Category ( ls_cate )");
         System.out.println("9. List all completed Category ( ls_comp_cate )");
         System.out.println("10. List all complete list ( ls_comp )");
-        System.out.println("11. sort the list by name ( ls_name_asc )");
+        System.out.println("11. sort the list by name ( ls_name )");
         System.out.println("12. sort the list by name ( ls_name_desc )");
         System.out.println("13. sort the list by date ( ls_date )");
         System.out.println("14. sort the list by date_desc (ls_date_desc)");
